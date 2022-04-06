@@ -6,26 +6,80 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
-<body>
+<body class="bg-dark">
     <nav class="navbar navbar-expand navbar-light bg-light">
-        <a class="navbar-brand m-1" href="#">Projects Tracker</a>
+        <a class="navbar-brand p-1" href="#">Projects Tracker</a>
         <div class="">
-            <p class="nav-item m-1" href="#" id="date">01/01/3022</p>
-            <p class="nav-item m-1" href="#" id="time">99:99:99</p>
+            <p class="nav-item p-1" href="#" id="date">01/01/3022</p>
+            <p class="nav-item p-1" href="#" id="time">99:99:99</p>
         </div>
         
     </nav>
 
-    <main class="bg-dark text-light vh-100 vw-100 row">
-        <div class="col-lg-3 bg-primary">
-            
-            <p class="m-3">This is some test text</p>
+    <main class="container-fluid row">
+        <div class="col-lg-3 col-md-12 p-3">
+            <div class="card bg-light">
+                <div class="card-body ">
+                    <h5 class="card-title">
+                        INSTRUCTIONS
+                    </h5>
+                    <p class="card-text">By clicking this button you will be prompted to input the following information:</p>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list">Project Name</li>
+                        <li class="list-group-item list">Project Type</li>
+                        <li class="list-group-item list">Hourly Rate ($)</li>
+                        <li class="list-group-item list">Due Date</li>
+                      </ul>
+                    <div class="text-center">
+                        <a href="#" class="btn btn-primary p-3 mt-3 w-100">Create Project</a>
+                    </div>
+                </div>
+            </div>
+             
         </div>
-        <div class="col-lg-9 bg-warning">
-
-            <p class="m-3">this is the right test text</p>
-            <!-- right side -->
-            <!-- Projects go here -->
+        <div class="col-lg-9 col-md-12 p-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                <table class="table table-striped">
+                    <thread>
+                        <tr>
+                            <th scope="col">Project Name</th>
+                            <th scope="col">Project Type</th>
+                            <th scope="col">Hourly Rate</th>
+                            <th scope="col">Due Date</th>
+                            <th scope="col">Days Until Due</th>
+                            <th scope="col">Potential total earnings</th>
+                        </tr>
+                        <tbody id="table-body">
+                            <tr>
+                                <td>Jquery stuff</td>
+                                <td>Coding</td>
+                                <td>200</td>
+                                <td>12/12/2022</td>
+                                <td>lots</td>
+                                <td>$infinity + 1</td>
+                            </tr>
+                            <tr>
+                                <td>Jquery stuff</td>
+                                <td>Coding</td>
+                                <td>200</td>
+                                <td>12/12/2022</td>
+                                <td>lots</td>
+                                <td>$infinity + 1</td>
+                            </tr>
+                            <tr>
+                                <td>Jquery stuff</td>
+                                <td>Coding</td>
+                                <td>200</td>
+                                <td>12/12/2022</td>
+                                <td>lots</td>
+                                <td>$infinity + 1</td>
+                            </tr>
+                        </tbody>
+                    </thread>
+                </table>
+                </div>
+            </div>
         </div>
     </main>
 
