@@ -61,10 +61,27 @@ function createProject(projectName, projectType, hourlyWage, dueDate){
     var projectNameEle = $("<td>"+ projectName + "</td>");
     var projectTypeEle = $("<td>" + projectType + "</td>");
     var hourlyWageEle = $("<td>" + hourlyWage + "</td>");
+    var dueDateEle = $("<td>"+ moment(dueDate, "YYYY-MM-DD").format("d/m/YYYY") + "</td>");
+    
+    // days until due
+    var dayOfYearDue = moment(dueDate, "YYYY-MM-DD").dayOfYear();
+    var currentDayOfYear = moment().dayOfYear();
+    
+    var daysUntilDue = dayOfYearDue - currentDayOfYear;
+    if (daysUntilDue < 0){
+        daysUntilDue = "project due!";
+    }
+    var daysUntilDueEle = $("<td>" + daysUntilDue + "</td>");
+
+    var potentialEarnings = daysUntilDue * hourlyWage * 8;
+    var potentialEarningsEle = $("<td>$" + potentialEarnings + "</td>");
 
     tableRow.append(projectNameEle);
     tableRow.append(projectTypeEle);
     tableRow.append(hourlyWageEle);
+    tableRow.append(dueDateEle);
+    tableRow.append(daysUntilDueEle);
+    tableRow.append(potentialEarningsEle);
 
     $("#table-body").append(tableRow);
 };
