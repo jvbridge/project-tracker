@@ -11,11 +11,16 @@ var dueDateInput = $("#due-date-input");
 var projects = [];
 // list of the elements on the table
 var projectRows = [];
+
+var localStorageKey = "projectTracker";
 /*******************************************************************************
  * Initialization
  ******************************************************************************/
 // Make the time correct on page load
 updateTime();
+
+// gets all the projects we've made
+retrieveLocal();
 
 // Make it automatically update every second
 setInterval(() => {
@@ -68,15 +73,10 @@ function createProject(projectName, projectType, hourlyWage, dueDate){
     var hourlyWageEle = $("<td>" + hourlyWage + "</td>");
     var dueDateEle = $("<td>"+ moment(dueDate, "YYYY-MM-DD").format("D/M/YYYY") + "</td>");
 
-    console.log("due date is: ", dueDate);
-    console.log("moment parsed as: ",  moment(dueDate, "YYYY-MM-DD").format("D/M/YYYY"));
     // days until due
-    
     var momentDue = moment(dueDate, "YYYY-MM-DD");
     var momentToday = moment();
-    
     var daysUntilDue = momentDue.diff(momentToday,"days");
-    console.log("days until due: ", daysUntilDue);
 
     // declaration for easy modification
     var potentialEarnings;
@@ -110,10 +110,10 @@ function createProject(projectName, projectType, hourlyWage, dueDate){
 
     // for local storage
     projects.push(projectData);
+    storeLocal(); // over writes local storage, should not
+
     // our current index for removal of this element later
     var projectIndex = projects.length - 1;
-    
-    // TODO local storage
 
     // button addition
     var buttonEle = $("<button class='btn btn-primary text-dark'>Delete</button>");
@@ -123,7 +123,8 @@ function createProject(projectName, projectType, hourlyWage, dueDate){
         // remove the element from storage array
         projects.splice(projectIndex, 1);
 
-        // TODO: update local storage
+        // Update local storage
+        storeLocal();
     });
 
     tableRow.append(buttonEle);
@@ -135,4 +136,54 @@ function createProject(projectName, projectType, hourlyWage, dueDate){
 function createABunchOfProjects(){
     createProject("Hitchhike accross the galaxy","everything","42","2022-08-21");
     createProject("Procrastinate","everything","12","2021-08-21");
+}
+
+/**
+ * Function to update local storage. Able to be called in the middle of a 
+ * retrieval as well
+ */
+function storeLocal(){
+    console.log("storing local");
+    console.log(projects);
+    // simply stringifies the projects[] array and sends it to local storage
+    localStorage.setItem(localStorageKey, JSON.stringify(projects));
+}
+
+/**
+ * Function that retrives all infor0mation from local storage
+ */
+function retrieveLocal(){
+    console.log("retrieving local");
+    // empty the table just in case
+    $("#table-body").empty();
+    // overwrite our projects array
+    var local = localStorage.getItem(localStorageKey);
+    // if we find something write it in
+    if(local){
+        // temporary array to hold our projects
+        var projectsList = JSON.parse(local);
+        projects = [];
+        // loop over the array making projects as we go
+        projectsList.forEach(element => {
+            createProject(
+                element.projectName,
+                element.projectType,
+                element.hourlyWage,
+                element.dueDate
+            )
+        });
+    } else {
+        // we found nothing, just make a new array
+        projects =[];
+        storeLocal();
+    }
+};
+
+/**
+ * removes all projects
+ */
+function clearProjects(){
+    $("#table-body").empty();
+    projects = [];
+    storeLocal();
 }
