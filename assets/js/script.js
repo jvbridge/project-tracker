@@ -54,10 +54,10 @@ function updateTime(){
 
 /**
  * Creates a project table row element and appends it to the project table
- * @param {string} projectName 
- * @param {string} projectType 
- * @param {number} hourlyWage 
- * @param {Date} dueDate 
+ * @param {string} projectName name of the project
+ * @param {string} projectType type of the project
+ * @param {number} hourlyWage how much money per hour
+ * @param {string} dueDate the day it is due in YYYY-MM-DD format
  */
 function createProject(projectName, projectType, hourlyWage, dueDate){
     // main row to append
@@ -66,13 +66,18 @@ function createProject(projectName, projectType, hourlyWage, dueDate){
     var projectNameEle = $("<td>"+ projectName + "</td>");
     var projectTypeEle = $("<td>" + projectType + "</td>");
     var hourlyWageEle = $("<td>" + hourlyWage + "</td>");
-    var dueDateEle = $("<td>"+ moment(dueDate, "YYYY-MM-DD").format("d/m/YYYY") + "</td>");
+    var dueDateEle = $("<td>"+ moment(dueDate, "YYYY-MM-DD").format("D/M/YYYY") + "</td>");
 
+    console.log("due date is: ", dueDate);
+    console.log("moment parsed as: ",  moment(dueDate, "YYYY-MM-DD").format("D/M/YYYY"));
     // days until due
-    var dayOfYearDue = moment(dueDate, "YYYY-MM-DD").dayOfYear();
-    var currentDayOfYear = moment().dayOfYear();
     
-    var daysUntilDue = dayOfYearDue - currentDayOfYear;
+    var momentDue = moment(dueDate, "YYYY-MM-DD");
+    var momentToday = moment();
+    
+    var daysUntilDue = momentDue.diff(momentToday,"days");
+    console.log("days until due: ", daysUntilDue);
+
     // declaration for easy modification
     var potentialEarnings;
     // if the due date is today or in the past
@@ -95,6 +100,39 @@ function createProject(projectName, projectType, hourlyWage, dueDate){
     tableRow.append(daysUntilDueEle);
     tableRow.append(potentialEarningsEle);
 
+    // we have all the information we need, now we will store it
+    projectData = {
+        projectName: projectName,
+        projectType: projectType,
+        hourlyWage: hourlyWage,
+        dueDate: dueDate
+    }
+
+    // for local storage
+    projects.push(projectData);
+    // our current index for removal of this element later
+    var projectIndex = projects.length - 1;
+    
+    // TODO local storage
+
+    // button addition
+    var buttonEle = $("<button class='btn btn-primary text-dark'>Delete</button>");
+    buttonEle.on("click", ()=>{
+        // remove the element from the row
+        tableRow.remove();
+        // remove the element from storage array
+        projects.splice(projectIndex, 1);
+
+        // TODO: update local storage
+    });
+
+    tableRow.append(buttonEle);
     // append the row to the table-body
     $("#table-body").append(tableRow);
 };
+
+// Testing function for ease of use
+function createABunchOfProjects(){
+    createProject("Hitchhike accross the galaxy","everything","42","2022-08-21");
+    createProject("Procrastinate","everything","12","2021-08-21");
+}
