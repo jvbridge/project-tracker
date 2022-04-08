@@ -79,7 +79,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Creat a project!</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Create a project!</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -102,14 +102,14 @@
                         </div>
                         <div class="bg-light m-3 p-1 border rounded">
                             <label for="">Due Date</label>
-                            <input id="due-date-input" type="date">
+                            <input id="due-date-input" type="date" data-provide="datepicker">
                             <div id="due-date-help" class="form-text">pick a day when this should be done by</div>
                         </div>
                     </div>
                   </form>  
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Add Project</button>
+                <button type="button" id="add-project-button" class="btn btn-primary">Add Project</button>
               </div>
             </div>
           </div>
